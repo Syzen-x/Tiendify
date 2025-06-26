@@ -27,6 +27,8 @@ func main() {
 	})
 	r.HandleFunc("/register", handlers.RegisterPage).Methods("GET")           // GET
 	r.HandleFunc("/register", handlers.RegisterHandler(conn)).Methods("POST") // POST
+	r.HandleFunc("/dashboard", handlers.Dashboard(conn)).Methods("GET")
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	log.Println("Servidor de bd inicicalizado en el puerto 8080")
 

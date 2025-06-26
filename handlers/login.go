@@ -35,18 +35,25 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		if err != nil {
 			fmt.Print(err.Error())
 			tmpl.Execute(w, map[string]interface{}{
-				"ErrorMessage": "Email or Passowrd is incorrect",
+				"ErrorMessage": "Email or Password is incorrect",
 			})
 			return
 		}
 
 		if password != dbPassword {
 			tmpl.Execute(w, map[string]interface{}{
-				"ErrorMessage": "Email or Passowrd is incorrect",
+				"ErrorMessage": "Email or Password is incorrect",
 			})
 
 			return
 		}
+
+		http.SetCookie(w, &http.Cookie{
+			Name:  "session",
+			Value: email,
+			Path:  "/",
+		})
+		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 
 		fmt.Fprintf(w, "¡Bienvenido, %s!", email)
 	}
