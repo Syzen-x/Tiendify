@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Ecommerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/dashboard" class="flex items-center">
+                        <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">S</span>
+                        </div>
+                        <span class="ml-2 text-xl font-bold text-gray-900">Shop</span>
+                    </a>
+                </div>
+
+                <!-- Right side -->
+                <div class="flex items-center space-x-4">
+                    <!-- Back to Shop -->
+                    <a href="/dashboard" class="text-indigo-600 hover:text-indigo-500 font-medium">
+                        Continue Shopping
+                    </a>
+
+                    <!-- User Menu -->
+                    <div class="flex items-center space-x-2">
+                        <img src="/placeholder.svg?height=32&width=32" alt="User"
+                            class="w-8 h-8 rounded-full bg-gray-300">
+                        <span class="text-sm font-medium text-gray-700">John Doe</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2">
+                <li>
+                    <a href="#" class="text-gray-500 hover:text-gray-700">Home</a>
+                </li>
+                <li>
+                    <i data-lucide="chevron-right" class="icon-sm text-gray-400"></i>
+                </li>
+                <li class="text-gray-900 font-medium">Shopping Cart</li>
+            </ol>
+        </nav>
+
+        <!-- Page Title -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Shopping Cart</h1>
+            <p class="text-gray-600 mt-2">Review your items before checkout</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <!-- Cart Header -->
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-900">Cart Items ({{ .TotalItems }})</h2>
+                            <form action="/clear-cart" method="POST">
+                                <button type="submit" class="text-sm text-red-600 hover:text-red-500 font-medium">
+                                    Clear Cart
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    {{range .Items}}
+                    <div class="px-6 py-6 border-b border-gray-200">
+                        <div class="flex items-start space-x-4">
+                            <img src="{{.ImageURL}}" alt="{{.Name}}" class="w-20 h-20 object-cover rounded-lg">
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-medium text-gray-900">{{.Name}}</h3>
+                                        <p class="text-sm text-gray-600 mt-1">{{.Description}}</p>
+                                        <p class="text-sm text-gray-500 mt-1">Product ID: {{.ID}}</p>
+                                    </div>
+                                    <form action="/remove-from-cart" method="POST">
+                                        <input type="hidden" name="product_id" value="{{.ID}}">
+                                        <button class="text-gray-400 hover:text-red-500">
+                                            <i data-lucide="trash-2" class="icon-sm"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <div class="flex items-center justify-between mt-4">
+                                    <span class="text-sm text-gray-500">1 unit</span>
+                                    <div class="text-right">
+                                        <p class="text-lg font-semibold text-gray-900">$ {{printf "%.2f" .Price}}</p>
+                                        <p class="text-sm text-gray-500">$ {{printf "%.2f" .Price}} each</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{end}}
+
+                </div>
+
+                <!-- Recommended Products -->
+                <div class="mt-8 bg-white rounded-lg shadow-sm p-6">
+
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm p-6 sticky top-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Summary</h3>
+
+                    <!-- Promo Code -->
+                    <div class="mb-6">
+                        <label for="promo" class="block text-sm font-medium text-gray-700 mb-2">Promo Code</label>
+                        <div class="flex space-x-2">
+                            <input type="text" id="promo" placeholder="Enter code"
+                                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Price Breakdown -->
+                    <div class="space-y-3 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span class="font-medium" id="subtotal">$409.96</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Shipping</span>
+                            <span class="font-medium">$9.99</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Tax</span>
+                            <span class="font-medium">$32.80</span>
+                        </div>
+                        <div class="flex justify-between text-green-600">
+                            <span>Discount</span>
+                            <span>-$10.00</span>
+                        </div>
+                        <hr class="border-gray-200">
+                        <div class="flex justify-between text-lg font-semibold">
+                            <span>Total</span>
+                            <span id="total">$442.75</span>
+                        </div>
+                    </div>
+
+                    <!-- Checkout Button -->
+                    <button
+                        class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 mb-4">
+                        Proceed to Checkout
+                    </button>
+
+                    <!-- Payment Methods -->
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600 mb-3">We accept</p>
+                        <div class="flex justify-center space-x-3">
+                            <div class="w-8 h-6 bg-blue-600 rounded flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">V</span>
+                            </div>
+                            <div class="w-8 h-6 bg-red-600 rounded flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">M</span>
+                            </div>
+                            <div class="w-8 h-6 bg-blue-500 rounded flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">A</span>
+                            </div>
+                            <div class="w-8 h-6 bg-yellow-500 rounded flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">P</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Badge -->
+                    <div class="mt-6 text-center">
+                        <div class="flex items-center justify-center space-x-2 text-sm text-gray-600">
+                            <i data-lucide="shield-check" class="icon-sm text-green-600"></i>
+                            <span>Secure checkout guaranteed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Cart data
+        const cartItems = {
+            1: { price: 79.99, quantity: 2 },
+            2: { price: 199.99, quantity: 1 },
+            3: { price: 49.99, quantity: 1 }
+        };
+
+        // Update item total
+        function updateItemTotal(itemId) {
+            const item = cartItems[itemId];
+            const total = (item.price * item.quantity).toFixed(2);
+            document.querySelector(`[data-item="${itemId}"].item-total`).textContent = `$${total}`;
+            updateCartTotals();
+        }
+
+        // Update cart totals
+        function updateCartTotals() {
+            let subtotal = 0;
+            Object.values(cartItems).forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+
+            const shipping = 9.99;
+            const tax = subtotal * 0.08; // 8% tax
+            const discount = 10.00;
+            const total = subtotal + shipping + tax - discount;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Quantity controls
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const action = this.dataset.action;
+                const itemId = this.dataset.item;
+                const quantityDisplay = document.querySelector(`[data-item="${itemId}"].quantity-display`);
+
+                let currentQuantity = parseInt(quantityDisplay.textContent);
+
+                if (action === 'increase') {
+                    currentQuantity++;
+                } else if (action === 'decrease' && currentQuantity > 1) {
+                    currentQuantity--;
+                }
+
+                quantityDisplay.textContent = currentQuantity;
+                cartItems[itemId].quantity = currentQuantity;
+                updateItemTotal(itemId);
+            });
+        });
+
+        // Remove item buttons
+        document.querySelectorAll('button[class*="trash"]').forEach(button => {
+            button.addEventListener('click', function () {
+                if (confirm('Are you sure you want to remove this item?')) {
+                    this.closest('.px-6').remove();
+                    updateCartTotals();
+                }
+            });
+        });
+
+
+        // Promo code
+        document.querySelector('button:contains("Apply")').addEventListener('click', function () {
+            const promoInput = document.getElementById('promo');
+            const code = promoInput.value.trim().toLowerCase();
+
+            if (code === 'save10') {
+                alert('Promo code applied! $10 discount added.');
+            } else if (code) {
+                alert('Invalid promo code.');
+            }
+        });
+
+        // Checkout button
+        document.querySelector('button:contains("Proceed to Checkout")').addEventListener('click', function () {
+            alert('Redirecting to checkout...');
+        });
+
+        // Initialize totals
+        updateCartTotals();
+    </script>
+</body>
+
+</html>

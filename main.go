@@ -25,10 +25,18 @@ func main() {
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	})
-	r.HandleFunc("/register", handlers.RegisterPage).Methods("GET")           // GET
-	r.HandleFunc("/register", handlers.RegisterHandler(conn)).Methods("POST") // POST
+	r.HandleFunc("/register", handlers.RegisterPage).Methods("GET")
+	r.HandleFunc("/register", handlers.RegisterHandler(conn)).Methods("POST")
 	r.HandleFunc("/dashboard", handlers.Dashboard(conn)).Methods("GET")
+
+	//ruta static para las imagenes
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
+	r.HandleFunc("/logout", handlers.LogoutHandler)
+	r.HandleFunc("/cart", handlers.CartHandler)
+	r.HandleFunc("/add-to-cart", handlers.AddToCartHandler)
+	r.HandleFunc("/remove-from-cart", handlers.RemoveFromCartHandler)
+	r.HandleFunc("/clear-cart", handlers.ClearCartHandler)
 
 	log.Println("Servidor de bd inicicalizado en el puerto 8080")
 

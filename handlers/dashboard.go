@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 var dashboardTmpl = template.Must(template.ParseFiles("views/dashboard.html"))
@@ -16,6 +17,12 @@ func Dashboard(db *sql.DB) http.HandlerFunc {
 		if err != nil || cookie.Value == "" {
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
+		}
+		cartCookie, err := r.Cookie("cart")
+		itemCount := 0
+		if err == nil && cartCookie.Value != "" {
+			items := strings.Split(cartCookie.Value, ",")
+			itemCount = len(items)
 		}
 
 		// Cargar productos
@@ -58,6 +65,7 @@ func Dashboard(db *sql.DB) http.HandlerFunc {
 			"UserEmail": cookie.Value,
 			"firstName": firstName,
 			"Products":  products,
+			"CartCount": itemCount,
 		})
 	}
 }

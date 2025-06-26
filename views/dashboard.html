@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - Ecommerce</title>
+    <title>Tiendify</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
@@ -29,7 +29,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">S</span>
+                        <span class="text-white font-bold text-sm">T</span>
                     </div>
                     <span class="ml-2 text-xl font-bold text-gray-900">Shop</span>
                 </div>
@@ -45,12 +45,15 @@
 
                 <!-- Right side -->
                 <div class="flex items-center space-x-4">
-                    <!-- Cart -->
-                    <button class="relative p-2 text-gray-600 hover:text-gray-900">
+                    <a href="/cart" class="relative p-2 text-gray-600 hover:text-gray-900">
                         <i data-lucide="shopping-cart" class="icon"></i>
+                        {{if gt .CartCount 0}}
                         <span
-                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-                    </button>
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                            {{.CartCount}}
+                        </span>
+                        {{end}}
+                    </a>
 
                     <!-- Notifications -->
                     <button class="relative p-2 text-gray-600 hover:text-gray-900">
@@ -62,8 +65,9 @@
                     <!-- User Menu -->
                     <div class="relative">
                         <button id="user-menu" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
-                            <img src="../static/images/default-user.png" alt="User"
-                                class="w-8 h-8 rounded-full bg-gray-300">
+                            <img src="/static/images/default-user.png" alt="User"
+                                class="w-8 h-8 rounded-full object-cover border border-gray-200 shadow-sm">
+
                             <span class="text-sm font-medium text-gray-700">{{.firstName}} {{.lastName}}</span>
                             <i data-lucide="chevron-down" class="icon-sm text-gray-400"></i>
                         </button>
@@ -72,34 +76,25 @@
                         <div id="user-dropdown"
                             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
                             <div class="py-1">
-                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i data-lucide="user" class="icon-sm mr-3"></i>
-                                    My Profile
-                                </a>
-                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i data-lucide="package" class="icon-sm mr-3"></i>
-                                    My Orders
-                                </a>
-                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i data-lucide="heart" class="icon-sm mr-3"></i>
-                                    Wishlist
-                                </a>
-                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <a href="/profile"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     <i data-lucide="settings" class="icon-sm mr-3"></i>
-                                    Settings
+                                    Edit Profile
                                 </a>
                                 <hr class="my-1">
-                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <a href="/logout"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     <i data-lucide="log-out" class="icon-sm mr-3"></i>
-                                    Sign out
+                                    Logout
                                 </a>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
 
-        
+
         </div>
     </header>
 
@@ -123,15 +118,15 @@
 
 
 
-        <!-- Featured Products -->
+        <!-- Products -->
         <section class="mb-12">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-gray-900">Featured Products</h2>
-                <a href="#" class="text-indigo-600 hover:text-indigo-500 font-medium">View all</a>
+                <h2 class="text-2xl font-bold text-gray-900">Productos</h2>
+                <a href="#" class="text-indigo-600 hover:text-indigo-500 font-medium">Ver Todos</a>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {{range .Products}} 
+                {{range .Products}}
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
                     <div class="relative">
                         <img src="{{.ImageURL}}?height=200&width=300" alt="Product"
@@ -145,9 +140,14 @@
                         <p class="text-sm text-gray-600 mb-2">{{.Description}}</p>
                         <div class="flex items-center justify-between">
                             <span class="text-lg font-bold text-gray-900">$ {{printf "%.2f" .Price}}</span>
-                            <button class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-indigo-700">
-                                Add to Cart
-                            </button>
+                            <form action="/add-to-cart" method="POST">
+                                <input type="hidden" name="product_id" value="{{.ID}}">
+                                <button type="submit"
+                                    class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-indigo-700">
+                                    Add to Cart
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -156,16 +156,7 @@
         </section>
 
 
-        <!-- Promotional Banner -->
-        <section class="mb-12">
-            <div class="bg-gradient-to-r from-orange-400 to-pink-500 rounded-2xl p-8 text-white text-center">
-                <h2 class="text-3xl font-bold mb-2">Flash Sale!</h2>
-                <p class="text-orange-100 mb-4">Up to 50% off on selected items. Limited time offer!</p>
-                <button class="bg-white text-orange-500 px-8 py-3 rounded-lg font-bold hover:bg-gray-100">
-                    Shop Sale Items
-                </button>
-            </div>
-        </section>
+    
     </main>
 
     <!-- Footer -->
@@ -179,8 +170,8 @@
                         </div>
                         <span class="ml-2 text-xl font-bold">Shop</span>
                     </div>
-                    <p class="text-gray-400">Your trusted online shopping destination with quality products and
-                        excellent service.</p>
+                    <p class="text-gray-400">Su destino de compras en línea de confianza, con productos de calidad y un
+                        servicio excelente en</p>
                 </div>
                 <div>
                     <h3 class="font-semibold mb-4">Quick Links</h3>
@@ -222,5 +213,26 @@
     </footer>
 
 </body>
+<script>
+    lucide.createIcons(); // crear iconos
+    // Espera a que cargue el DOM
+    document.addEventListener("DOMContentLoaded", function () {
+        const userButton = document.getElementById("user-menu");
+        const dropdown = document.getElementById("user-dropdown");
+
+        userButton.addEventListener("click", function (e) {
+            e.stopPropagation(); // para evitar que el click cierre el menu
+            dropdown.classList.toggle("hidden");
+        });
+
+
+        // evento cuando el usuario haga click
+        document.addEventListener("click", function (e) {
+            if (!userButton.contains(e.target)) {
+                dropdown.classList.add("hidden");
+            }
+        });
+    });
+</script>
 
 </html>
