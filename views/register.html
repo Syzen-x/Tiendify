@@ -23,8 +23,8 @@
                         <span class="text-white font-bold text-xl">S</span>
                     </div>
                 </div>
-                <h1 class="text-2xl font-bold text-gray-900">Create account</h1>
-                <p class="text-gray-600">Join thousands of happy customers</p>
+                <h1 class="text-2xl font-bold text-gray-900">Crea tu cuenta</h1>
+                <p class="text-gray-600">Unete a los miles de clientes felices</p>
             </div>
 
             <!-- Content -->
@@ -33,39 +33,45 @@
                     <!-- Name Fields -->
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
-                            <label for="firstName" class="block text-sm font-medium text-gray-700">First name</label>
+                            <label for="firstName" class="block text-sm font-medium text-gray-700">Nombre</label>
                             <div class="relative">
                                 <i data-lucide="user" class="icon absolute left-3 top-3 text-gray-400"></i>
-                                <input name="firstName" id ="firstName" type="text" placeholder="John" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
+                                <input name="firstName" id ="firstName" type="text" placeholder="Felipe" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
                             </div>
                         </div>
                         <div class="space-y-2">
-                            <label for="lastName" class="block text-sm font-medium text-gray-700">Last name</label>
+                            <label for="lastName" class="block text-sm font-medium text-gray-700">Apellido</label>
                             <div class="relative">
                                 <i data-lucide="user" class="icon absolute left-3 top-3 text-gray-400"></i>
-                                <input name="lastName" id="lastName" type="text" placeholder="Doe" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
+                                <input name="lastName" id="lastName" type="text" placeholder="Sanchez" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
                             </div>
                         </div>
                     </div>
 
                     <!-- Email Field -->
                     <div class="space-y-2">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Correo</label>
                         <div class="relative">
                             <i data-lucide="mail" class="icon absolute left-3 top-3 text-gray-400"></i>
                             <input name="email" id="email" type="email" placeholder="user@example.com" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
                         </div>
                     </div>
 
-                    <!-- Phone Field -->
-            
+                    <!-- Direccion Field -->
+                    <div class="space-y-2">
+                        <label for="direccion" class="block text-sm font-medium text-gray-700">Direccion</label>
+                        <div class="relative">
+                            <i data-lucide="direccion" class="icon absolute left-3 top-3 text-gray-400"></i>
+                            <input name="direccion" id="direccion" type="direccion" placeholder="Direccion" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                    </div>
 
                     <!-- Password Field -->
                     <div class="space-y-2">
-                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
                         <div class="relative">
                             <i data-lucide="lock" class="icon absolute left-3 top-3 text-gray-400"></i>
-                            <input name="password" id="password" type="password" placeholder="Enter your password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
+                            <input name="password" id="password" type="password" placeholder="Ingresa tu contraseña" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
                             <button type="button" id="toggle-password" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
                                 <i data-lucide="eye" class="icon"></i>
                             </button>
@@ -74,10 +80,10 @@
 
                     <!-- Confirm Password Field -->
                     <div class="space-y-2">
-                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirma tu contraseña</label>
                         <div class="relative">
                             <i data-lucide="lock" class="icon absolute left-3 top-3 text-gray-400"></i>
-                            <input name="confirmPassword"id="confirmPassword" type="password" placeholder="Confirm your password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
+                            <input name="confirmPassword"id="confirmPassword" type="password" placeholder="Confirma tu contraseña" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
                             <button type="button" id="toggle-confirm-password" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
                                 <i data-lucide="eye" class="icon"></i>
                             </button>
@@ -89,31 +95,25 @@
                         <div class="flex items-start space-x-2">
                             <input id="terms" type="checkbox" class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mt-0.5" required>
                             <label for="terms" class="text-sm text-gray-700">
-                                I agree to the 
-                                <button type="button" class="text-indigo-600 hover:text-indigo-500 font-medium">Terms of Service</button>
-                                and 
-                                <button type="button" class="text-indigo-600 hover:text-indigo-500 font-medium">Privacy Policy</button>
-                            </label>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <input id="newsletter" type="checkbox" class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                            <label for="newsletter" class="text-sm text-gray-700">
-                                Subscribe to our newsletter for exclusive offers
+                                Estoy de acuerdo con los
+                                <button type="button" class="text-indigo-600 hover:text-indigo-500 font-medium">Terminos de Servicio</button>
+                                y
+                                <button type="button" class="text-indigo-600 hover:text-indigo-500 font-medium">Politicas de Privacidad</button>
                             </label>
                         </div>
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 font-medium">
-                        Create account
+                        Crea tu cuenta
                     </button>
                 </form>
 
                 <!-- Login Link -->
                 <div class="text-center">
-                    <span class="text-sm text-gray-600">Already have an account?</span>
+                    <span class="text-sm text-gray-600">Ya tienes una cuenta?</span>
                     <a href="/login" class="text-sm text-indigo-600 hover:text-indigo-500 font-semibold ml-1">
-                        Sign in
+                        Inicia sesion
                     </a>
                 </div>
                    {{if .ErrorMessage}}

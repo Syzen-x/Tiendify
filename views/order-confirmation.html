@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Ecommerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+        .icon-lg {
+            width: 48px;
+            height: 48px;
+        }
+        @keyframes checkmark {
+            0% {
+                stroke-dashoffset: 100;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        .checkmark-animation {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: checkmark 1s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/dashboard" class="flex items-center">
+                        <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">T</span>
+                        </div>
+                        <span class="ml-2 text-xl font-bold text-gray-900">Tiendify</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Success Message -->
+        <div class="text-center mb-12">
+            <!-- Animated Checkmark -->
+            <div class="mx-auto w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path class="checkmark-animation" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Gracias por tu compra!</h1>
+            <p class="text-xl text-gray-600 mb-2">Tu pago ha sido procesado exitosamente</p>
+            <p class="text-gray-500">La confirmacion de tu orden a sido enviada a tu correo</p>
+        </div>
+
+        <!-- Order Details Card -->
+        <div class="bg-white rounded-lg shadow-sm border mb-8">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-gray-900">Detalles de la orden</h2>
+                    <span class="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+                        Confirmado
+                    </span>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-2">Numero de orden</h3>
+                        <p class="text-lg font-semibold text-gray-900">#ORD-2025-031234</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-2">Fecha de orden</h3>
+                        <p class="text-lg font-semibold text-gray-900">27-06-2025</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-2">Total</h3>
+                        <p class="text-lg font-semibold text-gray-900">{{.Total}}</p>
+                    </div>
+                </div>
+
+                <!-- Shipping & Billing Info -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-3">Direccion</h3>
+                        <div class="text-gray-900">
+                            <p>{{.Direccion}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-3">Metodo de pago</h3>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-6 bg-blue-600 rounded flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">V</span>
+                            </div>
+                            <div>
+                                <p class="text-gray-900 font-medium">Visa Card</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="bg-white rounded-lg shadow-sm border mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900">Productos ordenados</h2>
+            </div>
+            
+            <div class="divide-y divide-gray-200">
+                <!-- Item 1 -->
+                 {{range .Items}}
+                    <div class="px-6 py-4 flex items-center space-x-4">
+                    <img src="{{.ImageURL}}?height=60&width=60" alt="Wireless Headphones" class="w-8 h-8 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <h3 class="font-medium text-gray-900">{{.Name}}</h3>
+                        <p class="text-sm text-gray-600">{{.Description}}</p>
+                        <p class="text-sm text-gray-500">{{.Cantidad}}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-semibold text-gray-900">$159.98</p>
+                        <p class="text-sm text-gray-500">$79.99 each</p>
+                    </div>
+                    </div>
+                {{end}}
+    
+            </div>
+
+            <!-- Order Summary -->
+            <div class="px-6 py-4 bg-gray-50 rounded-b-lg">
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Subtotal</span>
+                        <span class="text-gray-900">$409.96</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Shipping</span>
+                        <span class="text-gray-900">$9.99</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Tax</span>
+                        <span class="text-gray-900">$32.80</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-green-600">
+                        <span>Discount</span>
+                        <span>-$10.00</span>
+                    </div>
+                    <hr class="border-gray-300">
+                    <div class="flex justify-between text-lg font-semibold">
+                        <span class="text-gray-900">Total</span>
+                        <span class="text-gray-900">$442.75</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shipping Information -->
+        <div class="bg-white rounded-lg shadow-sm border mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900">Informacion de envio</h2>
+            </div>
+            
+            <div class="p-6">
+                <div class="flex items-start space-x-4">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="truck" class="icon text-blue-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-gray-900 mb-1">Envio normal</h3>
+                        <p class="text-gray-600 mb-2">Tu pedido llegara en 3-5 dias laborables</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue Shopping -->
+        <div class="text-center mt-12">
+            <p class="text-gray-600 mb-4">Quieres seguir comprando?</p>
+            <a href="/dashboard" class="text-indigo-600 hover:text-indigo-500 font-medium">
+                Mira nuestros productos →
+            </a>
+        </div>
+    </main>
+
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

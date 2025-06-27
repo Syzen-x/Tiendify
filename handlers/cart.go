@@ -74,10 +74,28 @@ func CartHandler(w http.ResponseWriter, r *http.Request) {
 			})
 		}
 	}
+	var total float64
+	for _, item := range cartItems {
+		total += item.Price * float64(item.Quantity)
+	}
+
+	envio := 9.99
+	var subtotal float64
+	subtotal = total / 1.15
+
+	tax := subtotal * 0.15
+	discount := 0.00 // si lo aplicás fijo
+
+	total = subtotal + envio + tax - discount
 
 	cartTmpl.Execute(w, map[string]interface{}{
 		"Items":      cartItems,
 		"TotalItems": len(ids),
+		"Subtotal":   subtotal,
+		"Envio":      envio,
+		"Tax":        tax,
+		"Discount":   discount,
+		"Total":      total,
 	})
 }
 
@@ -152,6 +170,58 @@ func ClearCartHandler(w http.ResponseWriter, r *http.Request) {
 		Value:  "",
 		Path:   "/",
 		MaxAge: -1,
+	})
+
+	http.Redirect(w, r, "/cart", http.StatusSeeOther)
+}
+
+func UpdateCartHandler(w http.ResponseWriter, r *http.Request) {
+	productID := r.FormValue("product_id")
+	action := r.FormValue("action")
+
+	if productID == "" || (action != "increase" && action != "decrease") {
+		http.Redirect(w, r, "/cart", http.StatusSeeOther)
+		return
+	}
+
+	cookie, err := r.Cookie("cart")
+	if err != nil || cookie.Value == "" {
+		http.Redirect(w, r, "/cart", http.StatusSeeOther)
+		return
+	}
+
+	ids := strings.Split(cookie.Value, ",")
+	var updated []string
+	count := 0
+
+	for _, id := range ids {
+		if id == productID {
+			count++
+		} else {
+			updated = append(updated, id)
+		}
+	}
+
+	// Ajustamos la cantidad
+	switch action {
+	case "increase":
+		count++
+	case "decrease":
+		if count > 1 {
+			count--
+		}
+	}
+
+	// Agregamos el producto actualizado
+	for i := 0; i < count; i++ {
+		updated = append(updated, productID)
+	}
+
+	// Guardar cookie actualizada
+	http.SetCookie(w, &http.Cookie{
+		Name:  "cart",
+		Value: strings.Join(updated, ","),
+		Path:  "/",
 	})
 
 	http.Redirect(w, r, "/cart", http.StatusSeeOther)

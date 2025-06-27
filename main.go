@@ -18,7 +18,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error al conectar a la base de datos: %v", err)
 	}
+
 	r := mux.NewRouter()
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static")))) // para poder obtener las imagenes desde otras clases
 	// la ruta de navegacion para el sistema pero /
 	r.HandleFunc("/login", handlers.LoginHandler(conn)).Methods("POST")
 	r.HandleFunc("/login", handlers.LoginPage).Methods("GET")
@@ -30,13 +32,14 @@ func main() {
 	r.HandleFunc("/dashboard", handlers.Dashboard(conn)).Methods("GET")
 
 	//ruta static para las imagenes
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	r.HandleFunc("/logout", handlers.LogoutHandler)
 	r.HandleFunc("/cart", handlers.CartHandler)
 	r.HandleFunc("/add-to-cart", handlers.AddToCartHandler)
 	r.HandleFunc("/remove-from-cart", handlers.RemoveFromCartHandler)
 	r.HandleFunc("/clear-cart", handlers.ClearCartHandler)
+	r.HandleFunc("/update-cart", handlers.UpdateCartHandler)
+	r.HandleFunc("/order-confirmation", handlers.OrderConfirmationHandler)
 
 	log.Println("Servidor de bd inicicalizado en el puerto 8080")
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - Ecommerce</title>
+    <title>Carrito de Compras</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
@@ -39,15 +39,8 @@
                 <div class="flex items-center space-x-4">
                     <!-- Back to Shop -->
                     <a href="/dashboard" class="text-indigo-600 hover:text-indigo-500 font-medium">
-                        Continue Shopping
+                        Continuar Comprando
                     </a>
-
-                    <!-- User Menu -->
-                    <div class="flex items-center space-x-2">
-                        <img src="/placeholder.svg?height=32&width=32" alt="User"
-                            class="w-8 h-8 rounded-full bg-gray-300">
-                        <span class="text-sm font-medium text-gray-700">John Doe</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -64,14 +57,14 @@
                 <li>
                     <i data-lucide="chevron-right" class="icon-sm text-gray-400"></i>
                 </li>
-                <li class="text-gray-900 font-medium">Shopping Cart</li>
+                <li class="text-gray-900 font-medium">Carrito de Compras</li>
             </ol>
         </nav>
 
         <!-- Page Title -->
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">Shopping Cart</h1>
-            <p class="text-gray-600 mt-2">Review your items before checkout</p>
+            <h1 class="text-3xl font-bold text-gray-900">Carrito de Compras</h1>
+            <p class="text-gray-600 mt-2">Revisa tus productos antes de comprar</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -99,21 +92,48 @@
                                     <div>
                                         <h3 class="text-lg font-medium text-gray-900">{{.Name}}</h3>
                                         <p class="text-sm text-gray-600 mt-1">{{.Description}}</p>
-                                        <p class="text-sm text-gray-500 mt-1">Product ID: {{.ID}}</p>
                                     </div>
+                                    <!-- Botón eliminar -->
                                     <form action="/remove-from-cart" method="POST">
                                         <input type="hidden" name="product_id" value="{{.ID}}">
-                                        <button class="text-gray-400 hover:text-red-500">
+                                        <button class="text-gray-400 hover:text-red-500" title="Remove item">
                                             <i data-lucide="trash-2" class="icon-sm"></i>
                                         </button>
                                     </form>
                                 </div>
 
+                                <!-- Controles de cantidad y precio -->
                                 <div class="flex items-center justify-between mt-4">
-                                    <span class="text-sm text-gray-500">1 unit</span>
+                                    <!-- Controles de cantidad -->
+                                    <div class="flex items-center border border-gray-300 rounded-lg">
+                                        <!-- Disminuir -->
+                                        <form action="/update-cart" method="POST">
+                                            <input type="hidden" name="product_id" value="{{.ID}}">
+                                            <input type="hidden" name="action" value="decrease">
+                                            <button type="submit" class="p-2 hover:bg-gray-100" {{if eq .Quantity
+                                                1}}disabled{{end}}>
+                                                <i data-lucide="minus" class="icon-sm"></i>
+                                            </button>
+                                        </form>
+
+                                        <!-- Mostrar cantidad -->
+                                        <span class="px-4 py-2 text-center min-w-[3rem]">{{.Quantity}}</span>
+
+                                        <!-- Aumentar -->
+                                        <form action="/update-cart" method="POST">
+                                            <input type="hidden" name="product_id" value="{{.ID}}">
+                                            <input type="hidden" name="action" value="increase">
+                                            <button type="submit" class="p-2 hover:bg-gray-100">
+                                                <i data-lucide="plus" class="icon-sm"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    <!-- Precio total -->
                                     <div class="text-right">
-                                        <p class="text-lg font-semibold text-gray-900">$ {{printf "%.2f" .Price}}</p>
-                                        <p class="text-sm text-gray-500">$ {{printf "%.2f" .Price}} each</p>
+                                        <p class="text-lg font-semibold text-gray-900">$ {{printf "%.2f" (mul .Price
+                                            .Quantity)}}</p>
+                                        <p class="text-sm text-gray-500">$ {{printf "%.2f" .Price}} cada uno</p>
                                     </div>
                                 </div>
                             </div>
@@ -121,80 +141,52 @@
                     </div>
                     {{end}}
 
-                </div>
-
-                <!-- Recommended Products -->
-                <div class="mt-8 bg-white rounded-lg shadow-sm p-6">
 
                 </div>
+
+
             </div>
 
             <!-- Order Summary -->
             <div class="lg:col-span-1">
                 <div class="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Summary</h3>
-
-                    <!-- Promo Code -->
-                    <div class="mb-6">
-                        <label for="promo" class="block text-sm font-medium text-gray-700 mb-2">Promo Code</label>
-                        <div class="flex space-x-2">
-                            <input type="text" id="promo" placeholder="Enter code"
-                                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200">
-                                Apply
-                            </button>
-                        </div>
-                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Resumen del Pedido</h3>
 
                     <!-- Price Breakdown -->
                     <div class="space-y-3 mb-6">
                         <div class="flex justify-between">
                             <span class="text-gray-600">Subtotal</span>
-                            <span class="font-medium" id="subtotal">$409.96</span>
+                            <span class="font-medium" id="subtotal">$ {{printf "%.2f" .Subtotal}}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-gray-600">Shipping</span>
-                            <span class="font-medium">$9.99</span>
+                            <span class="text-gray-600">Envio</span>
+                            <span class="font-medium">$ {{printf "%.2f" .Envio}}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Tax</span>
-                            <span class="font-medium">$32.80</span>
+                            <span class="font-medium">$ {{printf "%.2f" .Tax}}</span>
                         </div>
+
                         <div class="flex justify-between text-green-600">
-                            <span>Discount</span>
-                            <span>-$10.00</span>
+                            <span>Descuento</span>
+                            <span>-$0.00</span>
                         </div>
                         <hr class="border-gray-200">
                         <div class="flex justify-between text-lg font-semibold">
                             <span>Total</span>
-                            <span id="total">$442.75</span>
+                            <span id="total">$ {{printf "%.2f" .Total}}</span>
                         </div>
                     </div>
 
                     <!-- Checkout Button -->
-                    <button
-                        class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 mb-4">
-                        Proceed to Checkout
-                    </button>
+                    <form action="/order-confirmation" method="POST">
+                        <button type="submit"
+                            class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 mb-4">
+                            Pagar
+                        </button>
+                    </form>
 
-                    <!-- Payment Methods -->
-                    <div class="text-center">
-                        <p class="text-sm text-gray-600 mb-3">We accept</p>
-                        <div class="flex justify-center space-x-3">
-                            <div class="w-8 h-6 bg-blue-600 rounded flex items-center justify-center">
-                                <span class="text-white text-xs font-bold">V</span>
-                            </div>
-                            <div class="w-8 h-6 bg-red-600 rounded flex items-center justify-center">
-                                <span class="text-white text-xs font-bold">M</span>
-                            </div>
-                            <div class="w-8 h-6 bg-blue-500 rounded flex items-center justify-center">
-                                <span class="text-white text-xs font-bold">A</span>
-                            </div>
-                            <div class="w-8 h-6 bg-yellow-500 rounded flex items-center justify-center">
-                                <span class="text-white text-xs font-bold">P</span>
-                            </div>
-                        </div>
-                    </div>
+
 
                     <!-- Security Badge -->
                     <div class="mt-6 text-center">

@@ -20,7 +20,7 @@
     </style>
 </head>
 
-<body class="bg-gray-50">
+<body class="flex flex-col min-h-screen bg-gray-50">
     <!-- Header -->
     <header class="bg-white shadow-sm border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,14 +34,13 @@
                     <span class="ml-2 text-xl font-bold text-gray-900">Shop</span>
                 </div>
 
-                <!-- Search Bar -->
-                <div class="flex-1 max-w-lg mx-8">
-                    <div class="relative">
-                        <i data-lucide="search" class="icon-sm absolute left-3 top-3 text-gray-400"></i>
-                        <input type="text" placeholder="Search products..."
-                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                </div>
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <a href="#" class="text-indigo-600 font-medium">Products</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900">Orders</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900">Customers</a>
+                </nav>
 
                 <!-- Right side -->
                 <div class="flex items-center space-x-4">
@@ -99,19 +98,16 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Hero Banner -->
         <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 mb-8 text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold mb-2">Welcome back, {{.firstName}}</h1>
-                    <p class="text-indigo-100 mb-4">Discover amazing deals and new arrivals</p>
+                    <h1 class="text-3xl font-bold mb-2">Bienvenido, {{.firstName}}</h1>
+                    <p class="text-indigo-100 mb-4">Descubre nuestros increibles productos</p>
                     <button class="bg-white text-indigo-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100">
-                        Shop Now
+                        Compra ahora
                     </button>
-                </div>
-                <div class="hidden md:block">
-                    <img src="/placeholder.svg?height=150&width=200" alt="Shopping" class="rounded-lg">
                 </div>
             </div>
         </div>
@@ -156,61 +152,18 @@
         </section>
 
 
-    
+
     </main>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold text-sm">S</span>
-                        </div>
-                        <span class="ml-2 text-xl font-bold">Shop</span>
-                    </div>
-                    <p class="text-gray-400">Su destino de compras en línea de confianza, con productos de calidad y un
-                        servicio excelente en</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white">About Us</a></li>
-                        <li><a href="#" class="hover:text-white">Contact</a></li>
-                        <li><a href="#" class="hover:text-white">FAQ</a></li>
-                        <li><a href="#" class="hover:text-white">Shipping Info</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Categories</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white">Electronics</a></li>
-                        <li><a href="#" class="hover:text-white">Fashion</a></li>
-                        <li><a href="#" class="hover:text-white">Home & Garden</a></li>
-                        <li><a href="#" class="hover:text-white">Sports</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Follow Us</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i data-lucide="facebook" class="icon"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i data-lucide="twitter" class="icon"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i data-lucide="instagram" class="icon"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Shop. All rights reserved.</p>
+            <div class="text-center text-gray-400 border-t border-gray-800 pt-6">
+                <p>&copy; 2025 Created with Tiendify</p>
             </div>
         </div>
     </footer>
+
 
 </body>
 <script>

@@ -3,6 +3,7 @@ package models
 import (
 	"Tiendify/db"
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -13,6 +14,7 @@ type User struct {
 	Email     string
 	Password  string
 	Role      string
+	Direccion string
 }
 
 //funciones que permitan a traves de la base de datos todos los elementos de el crud
@@ -45,6 +47,24 @@ func GetUserByID(id int) (User, error) {
 	log.Println("Usuario obtenido con exito: ", user)
 
 	return user, nil
+}
+func GetUserByEmail(email string) (User, error) {
+	var user User
+	dbConn, err := db.Connect()
+	if err != nil {
+		return user, err
+	}
+	defer dbConn.Close()
+
+	stmt, err := dbConn.Prepare("SELECT id, firstName, lastName, email, direccion FROM users WHERE email = ?")
+	if err != nil {
+		return user, err
+	}
+
+	row := stmt.QueryRow(email)
+	fmt.Println(email)
+	err = row.Scan(&user.ID, &user.firstName, &user.lastName, &user.Email, &user.Direccion)
+	return user, err
 }
 
 func GetAllUsers() ([]User, error) {
