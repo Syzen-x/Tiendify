@@ -8,14 +8,14 @@ import (
 func Setup(db *sql.DB) {
 	createUsersTable := `
 	CREATE TABLE IF NOT EXISTS users (
-		id INTEGER PRIMARY KEY AUTO_INCREMENT,
-		firstName TEXT NOT NULL,
-		lastName TEXT NOT NULL,
-		email TEXT NOT NULL UNIQUE,
-		password TEXT NOT NULL,
-		role TEXT NOT NULL DEFAULT 'user',
-		direccion TEXT
-	);`
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    direccion TEXT
+);`
 
 	createProductsTable := `
 	CREATE TABLE IF NOT EXISTS products (
