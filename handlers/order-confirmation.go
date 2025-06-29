@@ -66,21 +66,22 @@ func OrderConfirmationHandler(w http.ResponseWriter, r *http.Request) {
 	defer rows.Close()
 
 	var items []OrderItem
-	var subtotal float64
+	var total float64
 	for rows.Next() {
 		var p models.Product
 		if err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.Price, &p.Stock, &p.ImageURL); err == nil {
 			qty := quantityMap[strconv.Itoa(p.ID)]
 			p.ImageURL = "/static/images/" + p.ImageURL
-			subtotal += p.Price * float64(qty)
+			total += p.Price * float64(qty)
 			items = append(items, OrderItem{Product: p, Quantity: qty})
 		}
 	}
 
 	shipping := 9.99
+	subtotal := total / 1.15
 	tax := subtotal * 0.15
-	discount := 10.00
-	total := subtotal + shipping + tax - discount
+	discount := 0.0
+	total = total + shipping - discount
 
 	// Obtenemos el correo del usuario desde la cookie
 	sessionCookie, err := r.Cookie("session")

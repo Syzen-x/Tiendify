@@ -55,7 +55,8 @@ func Dashboard(db *sql.DB) http.HandlerFunc {
 		}
 
 		var firstName string
-		err = db.QueryRow("SELECT firstName FROM users WHERE email = ?", cookie.Value).Scan(&firstName)
+		var role string
+		err = db.QueryRow("SELECT firstName, role FROM users WHERE email = ?", cookie.Value).Scan(&firstName, &role)
 		if err != nil {
 			http.Error(w, "No se pudo obtener el nombre del usuario", http.StatusInternalServerError)
 			return
@@ -66,6 +67,7 @@ func Dashboard(db *sql.DB) http.HandlerFunc {
 			"firstName": firstName,
 			"Products":  products,
 			"CartCount": itemCount,
+			"IsAdmin":   role == "admin",
 		})
 	}
 }

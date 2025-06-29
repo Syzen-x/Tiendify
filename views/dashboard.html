@@ -35,12 +35,13 @@
                 </div>
 
                 <!-- Navigation -->
+                 {{if .IsAdmin}}
                 <nav class="hidden md:flex space-x-8">
-                    <a href="#" class="text-gray-600 hover:text-gray-900">Dashboard</a>
-                    <a href="#" class="text-indigo-600 font-medium">Products</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900">Orders</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900">Customers</a>
+                    <a href="#" class="text-indigo-600 hover:text-gray-900">Dashboard</a>
+                    <a href="/admin/productos" class="text-gray-600 font-medium">Productos</a>
+                    <a href="/admin/usuarios" class="text-gray-600 hover:text-gray-900">Usuarios</a>
                 </nav>
+                {{end}}
 
                 <!-- Right side -->
                 <div class="flex items-center space-x-4">

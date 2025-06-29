@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiendify | Agregar Usuario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">T</span>
+                        </div>
+                        <span class="ml-2 text-xl font-bold text-gray-900">Tiendify</span>
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <a href="/admin/productos" class="text-gray-600 hover:text-gray-900">Productos</a>
+                    <a href="/admin/usuarios" class="text-indigo-600 font-medium">Usuarios</a>
+                </nav>
+
+                <!-- User Menu -->
+                <div class="relative">
+                    <button id="user-menu" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
+                        <img src="/static/images/default-user.png" alt="User"
+                            class="w-8 h-8 rounded-full object-cover border border-gray-200 shadow-sm">
+
+                        <span class="text-sm font-medium text-gray-700">{{.firstName}} {{.lastName}}</span>
+                        <i data-lucide="chevron-down" class="icon-sm text-gray-400"></i>
+                    </button>
+                </div>
+            </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+                <a href="#" class="hover:text-gray-700">Usuarios</a>
+                <i data-lucide="chevron-right" class="icon-sm"></i>
+                <span class="text-gray-900">Agregar Usuario</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900">Agregar Nuevo Usuario</h1>
+            <p class="text-gray-600 mt-2">Crea un nuevo usuario en tu plataforma</p>
+        </div>
+
+        <!-- Form -->
+        <form action="/admin/usuarios/agregar" method="POST" id="user-form" class="space-y-8">
+            <!-- Personal Information -->
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-6">Informacion Personal</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- First Name -->
+                    <div>
+                        <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">
+                            Nombre *
+                        </label>
+                        <div class="relative">
+                            <i data-lucide="user" class="icon-sm absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="firstName" name="firstName" placeholder="Enter first name"
+                                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                required>
+                        </div>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div>
+                        <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
+                            Apellido *
+                        </label>
+                        <div class="relative">
+                            <i data-lucide="user" class="icon-sm absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="lastName" name="lastName" placeholder="Enter last name"
+                                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Information -->
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-6">Informacion de la cuenta</h2>
+
+                <div class="space-y-6">
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                            Correo *
+                        </label>
+                        <div class="relative">
+                            <i data-lucide="mail" class="icon-sm absolute left-3 top-3 text-gray-400"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter email address"
+                                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                required>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">Este correo sera usado para iniciar sesion</p>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                            Contraseña *
+                        </label>
+                        <div class="relative">
+                            <i data-lucide="lock" class="icon-sm absolute left-3 top-3 text-gray-400"></i>
+                            <input type="password" id="password" name="password" placeholder="Enter password"
+                                class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                required minlength="6">
+                            <button type="button" id="toggle-password"
+                                class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                                <i data-lucide="eye" class="icon-sm"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">La contraseña debe tener al menos 6 caracteres</p>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                            Confirmar contraseña *
+                        </label>
+                        <div class="relative">
+                            <i data-lucide="lock" class="icon-sm absolute left-3 top-3 text-gray-400"></i>
+                            <input type="password" id="confirmPassword" name="confirmPassword"
+                                placeholder="Confirm password"
+                                class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                required>
+                            <button type="button" id="toggle-confirm-password"
+                                class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                                <i data-lucide="eye" class="icon-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Information -->
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-6">Direccion</h2>
+
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
+                        Direccion *
+                    </label>
+                    <div class="relative">
+                        <i data-lucide="map-pin" class="icon-sm absolute left-3 top-3 text-gray-400"></i>
+                        <textarea id="address" name="address" rows="3" placeholder="Enter full address"
+                            class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            required></textarea>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Incluye calles, ciudad, estado y codigo postal</p>
+                </div>
+            </div>
+
+            <!-- Role & Permissions -->
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-6">Rol</h2>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Rol de Usuario *</label>
+                    <div class="space-y-3">
+                        <label class="flex items-start">
+                            <input type="radio" name="role" value="user"
+                                class="mt-1 text-indigo-600 focus:ring-indigo-500" checked>
+                            <div class="ml-3">
+                                <div class="text-sm font-medium text-gray-900">Usuario</div>
+                                <div class="text-sm text-gray-500">Este rol no tiene permisos de modificar ni crear</div>
+                            </div>
+                        </label>
+                        <label class="flex items-start">
+                            <input type="radio" name="role" value="admin"
+                                class="mt-1 text-indigo-600 focus:ring-indigo-500">
+                            <div class="ml-3">
+                                <div class="text-sm font-medium text-gray-900">Admin</div>
+                                <div class="text-sm text-gray-500">Este rol tiene acceso a editar,borrar,actualizar cualquier producto o usuario</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Form Actions -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-end">
+                <a href="/admin/usuarios"
+                    class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium">
+                    Cancelar
+                </a>
+                <button type="submit"
+                    class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium">
+                    Crear
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Password toggle functionality
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+        const toggleConfirmPassword = document.getElementById('toggle-confirm-password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            const icon = this.querySelector('i');
+            icon.setAttribute('data-lucide', type === 'password' ? 'eye' : 'eye-off');
+            lucide.createIcons();
+        });
+
+        toggleConfirmPassword.addEventListener('click', function () {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+
+            const icon = this.querySelector('i');
+            icon.setAttribute('data-lucide', type === 'password' ? 'eye' : 'eye-off');
+            lucide.createIcons();
+        });
+
+
+
+
+            // Validation
+            if (!userData.firstName.trim()) {
+                alert('Please enter a first name.');
+                return;
+            }
+
+            if (!userData.lastName.trim()) {
+                alert('Please enter a last name.');
+                return;
+            }
+
+            if (!userData.email.trim()) {
+                alert('Please enter an email address.');
+                return;
+            }
+
+            // Email format validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(userData.email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (!userData.password) {
+                alert('Please enter a password.');
+                return;
+            }
+
+            if (userData.password.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return;
+            }
+
+            if (userData.password !== userData.confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+
+            if (!userData.address.trim()) {
+                alert('Please enter an address.');
+                return;
+            }
+
+            // Simulate form submission
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Creating User...';
+            submitBtn.disabled = true;
+
+        // Real-time password confirmation validation
+        confirmPasswordInput.addEventListener('input', function () {
+            const password = passwordInput.value;
+            const confirmPassword = this.value;
+
+            if (confirmPassword && password !== confirmPassword) {
+                this.setCustomValidity('Passwords do not match');
+                this.classList.add('border-red-500');
+            } else {
+                this.setCustomValidity('');
+                this.classList.remove('border-red-500');
+            }
+        });
+
+        // Email validation
+        document.getElementById('email').addEventListener('blur', function () {
+            const email = this.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (email && !emailRegex.test(email)) {
+                this.classList.add('border-red-500');
+            } else {
+                this.classList.remove('border-red-500');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -26,6 +26,7 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 		password := r.FormValue("password")
 		firstName := r.FormValue("firstName")
 		lastName := r.FormValue("lastName")
+		direccion := r.FormValue("direccion")
 
 		fmt.Print("hola2")
 		// Validación básica
@@ -48,7 +49,7 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 
 		// Insertar nuevo usuario
 		fmt.Print("hola")
-		_, err = db.Exec("INSERT INTO users (firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)", firstName, lastName, email, password, "user")
+		_, err = db.Exec("INSERT INTO users (firstName, lastName, email, password, role, direccion) VALUES (?, ?, ?, ?, ?,?)", firstName, lastName, email, password, "user", direccion)
 		if err != nil {
 			fmt.Println(err.Error())
 			registerTmpl.Execute(w, map[string]interface{}{

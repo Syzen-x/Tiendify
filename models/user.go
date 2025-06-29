@@ -9,8 +9,8 @@ import (
 
 type User struct {
 	ID        int
-	firstName string
-	lastName  string
+	FirstName string
+	LastName  string
 	Email     string
 	Password  string
 	Role      string
@@ -36,7 +36,7 @@ func GetUserByID(id int) (User, error) {
 	}
 
 	row := stmt.QueryRow(id)
-	err = row.Scan(&user.ID, &user.firstName, &user.Email, &user.Password, &user.Role)
+	err = row.Scan(&user.ID, &user.FirstName, &user.Email, &user.Password, &user.Role)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Print("No se encontro el usuario con el id: ", id)
@@ -49,6 +49,7 @@ func GetUserByID(id int) (User, error) {
 	return user, nil
 }
 func GetUserByEmail(email string) (User, error) {
+	fmt.Println(email)
 	var user User
 	dbConn, err := db.Connect()
 	if err != nil {
@@ -56,14 +57,15 @@ func GetUserByEmail(email string) (User, error) {
 	}
 	defer dbConn.Close()
 
-	stmt, err := dbConn.Prepare("SELECT id, firstName, lastName, email, direccion FROM users WHERE email = ?")
+	stmt, err := dbConn.Prepare("SELECT id, firstName, lastName, email, direccion, Role FROM users WHERE email = ?")
 	if err != nil {
 		return user, err
 	}
 
 	row := stmt.QueryRow(email)
 	fmt.Println(email)
-	err = row.Scan(&user.ID, &user.firstName, &user.lastName, &user.Email, &user.Direccion)
+	err = row.Scan(&user.ID, &user.FirstName, &user.LastName, &user.Email, &user.Direccion, &user.Role)
+
 	return user, err
 }
 
@@ -90,7 +92,7 @@ func GetAllUsers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err = rows.Scan(&user.ID, &user.firstName, &user.Email, &user.Password, &user.Role)
+		err = rows.Scan(&user.ID, &user.FirstName, &user.Email, &user.Password, &user.Role)
 		if err != nil {
 			log.Print("Error al obtener el usuario:", err)
 			return users, err

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - Ecommerce Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+
+        .drag-over {
+            border-color: #4f46e5;
+            background-color: #f0f9ff;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">T</span>
+                        </div>
+                        <span class="ml-2 text-xl font-bold text-gray-900">Tiendify</span>
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/dashboard" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <a href="#" class="text-indigo-600 font-medium">Productos</a>
+                    <a href="/admin/usuarios" class="text-gray-600 hover:text-gray-900">Usuarios</a>
+                </nav>
+
+            
+                <div class="flex items-center space-x-2">
+                   
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+                <a href="#" class="hover:text-gray-700">Productos</a>
+                <i data-lucide="chevron-right" class="icon-sm"></i>
+                <span class="text-gray-900">Agregar Producto</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900">Agregar Producto</h1>
+            <p class="text-gray-600 mt-2">Rellena toda la informacion para crear el producto</p>
+        </div>
+
+        <!-- Form -->
+        <form action="/admin/productos/agregar" method="POST" id="product-form" class="space-y-8" enctype="multipart/form-data">
+            <!-- Basic Information -->
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-6">Informacion</h2>
+
+                <div class="grid grid-cols-1 gap-6">
+                    <!-- Product Name -->
+                    <div>
+                        <label for="productName" class="block text-sm font-medium text-gray-700 mb-2">
+                            Product Name *
+                        </label>
+                        <input type="text" id="productName" name="productName" placeholder="Nombre del producto"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            required>
+                        <p class="text-sm text-gray-500 mt-1">Ingresa el nombre del producto</p>
+                    </div>
+
+                    <!-- Product Description -->
+                    <div>
+                        <label for="productDescription" class="block text-sm font-medium text-gray-700 mb-2">
+                            Description *
+                        </label>
+                        <textarea id="productDescription" name="productDescription" rows="4"
+                            placeholder="Describe tu producto"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            required></textarea>
+                        <p class="text-sm text-gray-500 mt-1">Ingresa una descripcion detallada del producto</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing & Inventory -->
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-6">Precio y Cantidad</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Price -->
+                    <div>
+                        <label for="productPrice" class="block text-sm font-medium text-gray-700 mb-2">
+                            Precio *
+                        </label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2 text-gray-500">$</span>
+                            <input type="number" id="productPrice" name="productPrice" step="0.01" min="0"
+                                placeholder="0.00"
+                                class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                required>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">Ingresa el precio del producto</p>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div>
+                        <label for="productQuantity" class="block text-sm font-medium text-gray-700 mb-2">
+                            Cantidad *
+                        </label>
+                        <input type="number" id="productQuantity" name="productQuantity" min="0" placeholder="0"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            required>
+                        <p class="text-sm text-gray-500 mt-1">Cuantas unidades tienes?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Images -->
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-6">Imagen del Producto</h2>
+
+                <!-- File Upload Area -->
+                <div class="space-y-4">
+                    <div id="dropZone"
+                        class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors cursor-pointer">
+                        <div class="space-y-4">
+                            <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="upload" class="icon text-gray-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-lg font-medium text-gray-900">Sube la imagen del producto</p>
+                                <p class="text-gray-500">Arrastra y suelta la imagen aqui</p>
+                                <p class="text-sm text-gray-400 mt-2">PNG, JPG, GIF hasta 10MB</p>
+                            </div>
+                            <input type="file" id="productImages" name="productImages" multiple accept="image/*"
+                                class="hidden">
+                            <button type="button" id="browseBtn"
+                                class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 font-medium">
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Image Preview Area -->
+                    <div id="imagePreview" class="hidden">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">Selected Images</h3>
+                        <div id="previewContainer" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Image previews will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Form Actions -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-end">
+                <button type="button"
+                    class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium">
+                    Add Product
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        document.getElementById('browseBtn').addEventListener('click', function () {
+        document.getElementById('productImages').click();
+    });
+    </script>
+</body>
+
+</html>

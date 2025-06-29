@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiendify | Users</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">T</span>
+                        </div>
+                        <span class="ml-2 text-xl font-bold text-gray-900">Tiendify</span>
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/dashboard" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <a href="/admin/productos" class="text-gray-600 hover:text-gray-900">Productos</a>
+                    <a href="#" class="text-indigo-600 font-medium">Usuarios</a>
+                </nav>
+
+                <!-- User Menu -->
+                <div class="flex items-center space-x-2">
+                    <button id="user-menu" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
+                        <img src="/static/images/default-user.png" alt="User"
+                            class="w-8 h-8 rounded-full object-cover border border-gray-200 shadow-sm">
+
+                        <span class="text-sm font-medium text-gray-700">{{.User.FirstName}}</span>
+                        <i data-lucide="chevron-down" class="icon-sm text-gray-400"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Usuarios</h1>
+                <p class="text-gray-600 mt-2">Administra los usuarios de tu tienda</p>
+            </div>
+            <div class="mt-4 sm:mt-0">
+                <a href="/admin/usuarios/agregar" id="add-user-btn"
+                    class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 font-medium flex items-center space-x-2">
+                    <i data-lucide="user-plus" class="icon-sm"></i>
+                    <span>Agregar Usuario</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Users Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="users" class="icon text-blue-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Usuarios</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-users">{{len .Users}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm border p-6">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="shield" class="icon text-yellow-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Admins</p>
+                        <p class="text-2xl font-bold text-gray-900" id="admin-users">{{.Admins}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-gray-900">Lista de usuarios</h2>
+                    <div class="flex items-center space-x-2">
+                        <button class="text-gray-400 hover:text-gray-600">
+                            <i data-lucide="download" class="icon-sm"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-gray-600">
+                            <i data-lucide="filter" class="icon-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <input type="checkbox" id="select-all"
+                                    class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                First Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body" class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            {{range .Users}}
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="checkbox"
+                                    class="user-checkbox rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                    data-id="${user.id}">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <img src="/static/images/default-user.png" alt="{{.FirstName}}"
+                                        class="w-10 h-10 rounded-full bg-gray-300">
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">{{.FirstName}}</div>
+                                        <div class="text-sm text-gray-500">ID: {{.ID}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{.Email}}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="uppercase inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                    {{if eq .Role "admin"}}bg-purple-100 text-purple-800 {{else if eq .Role "user"
+                                    }}bg-gray-100 text-gray-800{{end}}">
+                                    {{.Role}}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-indigo-600 hover:text-indigo-900" onclick="editUser(`{{.ID}}`)"
+                                        title="Edit">
+                                        <i data-lucide="edit" class="icon-sm"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-900" onclick="deleteUsuario(`{{.ID}}`)"
+                                        title="Delete">
+                                        <i data-lucide="trash-2" class="icon-sm"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {{end}}
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="px-6 py-4 border-t border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-700">
+                        Mostrando <span class="font-medium">1</span> hasta <span class="font-medium">10</span> de <span
+                            class="font-medium">{{len .Users}}</span> resultados
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button
+                            class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                            disabled>
+                            Anterior
+                        </button>
+                        <button class="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium">1</button>
+                        <button
+                            class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">2</button>
+                        <button
+                            class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">3</button>
+                        <button
+                            class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+function deleteUsuario(id) {
+
+        fetch("/admin/usuarios/delete", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `id=${id}`,
+        })
+        .then(res => {
+            if (res.ok) {
+                alert("✅ Usuario eliminado");
+                location.reload();
+            } else {
+                alert("❌ Error al eliminar");
+            }
+        });
+    
+    }
+
+
+
+        // Re-initialize Lucide icons for new elements
+        lucide.createIcons();
+
+
+
+
+    
+
+        // Select all checkbox
+        document.getElementById('select-all').addEventListener('change', function () {
+            const checkboxes = document.querySelectorAll('.user-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+
+
+
+
+        // Initialize
+        renderUsers();
+        updateStats();
+    </script>
+</body>
+
+</html>
