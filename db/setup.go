@@ -6,6 +6,9 @@ import (
 )
 
 func Setup(db *sql.DB) {
+	createSchema := `
+	CREATE SCHEMA IF NOT EXISTS tiendify;`
+
 	createUsersTable := `
 	CREATE TABLE IF NOT EXISTS users (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,6 +30,9 @@ func Setup(db *sql.DB) {
 		image_url TEXT
 	);`
 
+	if _, err := db.Exec(createSchema); err != nil {
+		log.Fatalf("❌ Error creando esquema: %v", err)
+	}
 	if _, err := db.Exec(createUsersTable); err != nil {
 		log.Fatalf("❌ Error creating users table: %v", err)
 	}
@@ -35,4 +41,5 @@ func Setup(db *sql.DB) {
 	}
 
 	log.Println("✅ Tablas creadas o ya existentes.")
+
 }
