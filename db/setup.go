@@ -6,14 +6,11 @@ import (
 )
 
 func Setup(db *sql.DB) {
-	createSchema := `
-	CREATE SCHEMA IF NOT EXISTS tiendify;`
-
 	createUsersTable := `
 	CREATE TABLE IF NOT EXISTS users (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		firstname TEXT NOT NULL,
-		lastname TEXT NOT NULL,
+		id INTEGER PRIMARY KEY AUTO_INCREMENT,
+		firstName TEXT NOT NULL,
+		lastName TEXT NOT NULL,
 		email TEXT NOT NULL UNIQUE,
 		password TEXT NOT NULL,
 		role TEXT NOT NULL DEFAULT 'user',
@@ -22,7 +19,7 @@ func Setup(db *sql.DB) {
 
 	createProductsTable := `
 	CREATE TABLE IF NOT EXISTS products (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		id INTEGER PRIMARY KEY AUTO_INCREMENT,
 		name TEXT NOT NULL,
 		description TEXT,
 		price REAL NOT NULL,
@@ -30,9 +27,6 @@ func Setup(db *sql.DB) {
 		image_url TEXT
 	);`
 
-	if _, err := db.Exec(createSchema); err != nil {
-		log.Fatalf("❌ Error creando esquema: %v", err)
-	}
 	if _, err := db.Exec(createUsersTable); err != nil {
 		log.Fatalf("❌ Error creating users table: %v", err)
 	}
